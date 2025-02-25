@@ -7,6 +7,9 @@
 (require web-server/templates)
 (require racket/list)
 
+;; Define a struct for post metadata
+(struct post (title date content output-file) #:mutable #:transparent)
+
 ;; Function to ensure output directory exists
 (define (ensure-output-dir)
   (define output-dir "output")
@@ -29,16 +32,19 @@
       (let* ([end-idx (index-of (cdr lines) "---")]
              [frontmatter-lines (take (cdr lines) end-idx)]
              [content-lines (drop (cdr lines) (+ end-idx 1))]
-             [frontmatter (make-hash)])
+             [post-data (post "Untitled" "No date" "" "")])
         (for ([line frontmatter-lines])
           (when (regexp-match #px"^([^:]+):\\s*\"?([^\"]+)\"?$" line)
             (let ([matches (regexp-match #px"^([^:]+):\\s*\"?([^\"]+)\"?$" line)])
-              (hash-set! frontmatter 
-                        (string-trim (second matches))
-                        (string-trim (third matches))))))
-        (values frontmatter
+              (define key (string-trim (second matches)))
+              (define value (string-trim (third matches)))
+              (cond
+                [(string=? key "title") (set-post-title! post-data value)]
+                [(string=? key "date") (set-post-date! post-data value)]
+                [else (void)]))))
+        (values post-data
                 (string-join content-lines "\n")))
-      (values (make-hash) content)))
+      (values (post "Untitled" "No date" "" "") content)))
 
 ;; Function to process a single markdown file
 (define (process-markdown-file filename)
@@ -48,10 +54,7 @@
   (define output-path (build-path "output" output-filename))
   
   (define content (file->string input-path))
-  (define-values (frontmatter markdown-content) (parse-frontmatter content))
-  
-  (define title (hash-ref frontmatter "title" "Untitled"))
-  (define date (hash-ref frontmatter "date" "No date"))
+  (define-values (post-data markdown-content) (parse-frontmatter content))
   
   (define parsed-content (parse-markdown markdown-content))
   (define html-content 
@@ -59,36 +62,39 @@
      (map xexpr->string parsed-content)
      "\n"))
 
+  ;; Set the content field of the post struct
+  (set-post-content! post-data html-content)
+  (set-post-output-file! post-data output-filename)
+  
   ;; Render template with bindings
   (define full-html
-    (let ([title title]
-          [date date]
+    (let ([title (post-title post-data)]
+          [date (post-date post-data)]
           [content html-content])
       (include-template "templates/base.html")))
   
   (with-output-to-file output-path
     (λ () (display full-html))
-    #:exists 'replace))
+    #:exists 'replace)
+  
+  ;; Return the post data for later use
+  post-data)
 
 ;; Function to generate post list HTML
 (define (generate-post-list-html posts)
   (string-join
-   (for/list ([post (sort posts (λ (a b) (string>? (hash-ref a "date" "") (hash-ref b "date" ""))))])
+   (for/list ([post (sort posts (λ (a b) (string>? (post-date a) (post-date b))))])
      (format "<li><a href=\"~a\">~a</a><span class=\"post-date\">~a</span></li>"
-             (hash-ref post "output-file")
-             (hash-ref post "title")
-             (hash-ref post "date")))
+             (post-output-file post)
+             (post-title post)
+             (post-date post)))
    "\n"))
 
 ;; Function to generate index page
 (define (generate-index-html markdown-files)
   (define posts
     (for/list ([file markdown-files])
-      (define content (file->string (build-path "posts" file)))
-      (define-values (frontmatter _) (parse-frontmatter content))
-      (hash-set! frontmatter "output-file" 
-                 (path->string (path-replace-extension file #".html")))
-      frontmatter))
+      (process-markdown-file file)))
   
   (define posts-html (generate-post-list-html posts))
   
@@ -105,8 +111,7 @@
   (ensure-output-dir)
   (define markdown-files (get-markdown-files))
   (for ([file markdown-files])
-    (printf "Processing ~a...~n" file)
-    (process-markdown-file file))
+    (printf "Processing ~a...~n" file))
   (printf "Generating index.html...~n")
   (generate-index-html markdown-files)
   (printf "Done!~n"))
