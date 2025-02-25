@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <style>
+        body { max-width: 800px; margin: 0 auto; padding: 1rem; font-family: system-ui; line-height: 1.6; }
+        .header { margin-bottom: 2rem; }
+        .post-list { list-style: none; padding: 0; }
+        .post-list li { margin-bottom: 1rem; padding: 0.5rem; border-bottom: 1px solid #eee; }
+        .post-list a { text-decoration: none; color: #333; font-weight: bold; }
+        .post-list a:hover { color: #666; }
+        .post-date { color: #666; font-size: 0.9em; margin-left: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Blog Posts</h1>
+    </div>
+    <div class="content">
+        <ul class="post-list">
+            @|posts-html|
+        </ul>
+    </div>
+</body>
+</html>
