@@ -3,44 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edge Case Test</title>
+    <title>Edge Cases for Backlinks</title>
     <style>
         body { max-width: 800px; margin: 0 auto; padding: 1rem; font-family: system-ui; line-height: 1.6; }
         .header { margin-bottom: 2rem; }
         .date { color: #666; }
+        .backlinks { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; }
+        .backlinks h3 { font-size: 1.2rem; color: #555; }
+        .backlinks ul { padding-left: 1.5rem; }
+        .backlinks li { margin-bottom: 0.5rem; }
+        .backlinks a { color: #0066cc; text-decoration: none; }
+        .backlinks a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Edge Case Test</h1>
-        <div class="date">2025-02-26</div>
+        <h1>Edge Cases for Backlinks</h1>
+        <div class="date">2025-02-28</div>
     </div>
     <div class="content">
 
-<h1 id="edge-case-testing">Edge Case Testing</h1>
+<h1 id="edge-cases-for-backlinks">Edge Cases for Backlinks</h1>
 
-<p>This post tests some edge cases:</p>
+<p>This post explores some edge cases for the backlinks feature:</p>
 
-<h2 id="code-blocks">Code blocks</h2>
+<h2 id="self-referential-links">Self-referential links</h2>
 
-<pre class="brush: racket"><code>(define (hello-world)
-  (displayln "Hello, World!"))</code></pre>
+<p>Here&rsquo;s a <a href="edge-case.html">link to this same post</a> - should it create a backlink to itself?</p>
 
-<h2 id="tables">Tables</h2>
+<h2 id="multiple-links-to-the-same-post">Multiple links to the same post</h2>
 
-<p>| Header 1 | Header 2 | |&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;-| | Cell 1 | Cell 2 | | Cell 3 | Cell 4 |</p>
+<p>Here are two links to the <a href="test.html">test post</a> and another <a href="test.html">link to the test</a>.</p>
 
-<h2 id="special-characters">Special characters</h2>
+<h2 id="links-with-different-text-but-same-target">Links with different text but same target</h2>
 
+<p><a href="note.html">First link to note</a> and <a href="note.html">second link to the same note</a> with different text.</p>
+
+<h2 id="non-existent-links">Non-existent links</h2>
+
+<p><a href="nonexistent.html">This link</a> points to a post that doesn&rsquo;t exist.</p>
+
+<h2 id="return-to-indexhtmlindex">Return to <a href="index.html">index</a></h2>
+<div class="backlinks">
+<h3>Backlinks</h3>
 <ul>
- <li>Quotes: &ldquo;quoted text&rdquo;</li>
- <li>Apostrophes: don&rsquo;t, can&rsquo;t</li>
- <li>HTML entities: &lt; &gt; &amp;</li>
- <li>Emoji: 😀 🚀 🌍</li></ul>
-
-<h2 id="html-in-markdown">HTML in markdown</h2>
-
-<div style="color: red;">This is some <strong>HTML</strong> content.</div>
+<li><a href="test.html">Test Post</a></li>
+<li><a href="note.html">Note on Backlinks</a></li>
+</ul>
+</div>
     </div>
 </body>
 </html>

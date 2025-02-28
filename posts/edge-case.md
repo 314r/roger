@@ -1,35 +1,26 @@
 ---
-title: "Edge Case Test"
-date: 2025-02-26
+title: "Edge Cases for Backlinks"
+date: 2025-02-28
 ---
 
-# Edge Case Testing
+# Edge Cases for Backlinks
 
-This post tests some edge cases:
+This post explores some edge cases for the backlinks feature:
 
-## Code blocks
+## Self-referential links
 
-```racket
-(define (hello-world)
-  (displayln "Hello, World!"))
-```
+Here's a [link to this same post](edge-case.html) - should it create a backlink to itself?
 
-## Tables
+## Multiple links to the same post
 
-| Header 1 | Header 2 |
-|----------|----------|
-| Cell 1   | Cell 2   |
-| Cell 3   | Cell 4   |
+Here are two links to the [test post](test.html) and another [link to the test](test.html).
 
-## Special characters
+## Links with different text but same target
 
-* Quotes: "quoted text"
-* Apostrophes: don't, can't
-* HTML entities: &lt; &gt; &amp;
-* Emoji: 😀 🚀 🌍
+[First link to note](note.html) and [second link to the same note](note.html) with different text.
 
-## HTML in markdown
+## Non-existent links
 
-<div style="color: red;">
-  This is some <strong>HTML</strong> content.
-</div> 
+[This link](nonexistent.html) points to a post that doesn't exist.
+
+## Return to [index](index.html) 

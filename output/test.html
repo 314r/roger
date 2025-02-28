@@ -8,6 +8,12 @@
         body { max-width: 800px; margin: 0 auto; padding: 1rem; font-family: system-ui; line-height: 1.6; }
         .header { margin-bottom: 2rem; }
         .date { color: #666; }
+        .backlinks { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; }
+        .backlinks h3 { font-size: 1.2rem; color: #555; }
+        .backlinks ul { padding-left: 1.5rem; }
+        .backlinks li { margin-bottom: 0.5rem; }
+        .backlinks a { color: #0066cc; text-decoration: none; }
+        .backlinks a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -26,9 +32,19 @@
 <ul>
  <li>Markdown formatting</li>
  <li>Frontmatter parsing</li>
- <li>HTML generation</li></ul>
+ <li>HTML generation</li>
+ <li><a href="edge-case.html">Backlinks support</a></li></ul>
+
+<p>Check out our <a href="note.html">note on backlinks</a> for more information.</p>
 
 <p><a href="index.html">Link back to index</a></p>
+<div class="backlinks">
+<h3>Backlinks</h3>
+<ul>
+<li><a href="note.html">Note on Backlinks</a></li>
+<li><a href="edge-case.html">Edge Cases for Backlinks</a></li>
+</ul>
+</div>
     </div>
 </body>
 </html>

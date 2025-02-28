@@ -12,5 +12,8 @@ This is a test post to verify that the generator works correctly.
 - Markdown formatting
 - Frontmatter parsing
 - HTML generation
+- [Backlinks support](edge-case.html)
+
+Check out our [note on backlinks](note.html) for more information.
 
 [Link back to index](index.html) 
