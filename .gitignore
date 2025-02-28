@@ -1,0 +1,19 @@
+# VS Code files
+.vscode/
+
+# Racket compiled files
+compiled/
+*.zo
+*.dep
+
+# Output directory
+output/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*~
+\#*\#
+.\#* 
