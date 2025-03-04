@@ -16,6 +16,33 @@
   (when (not (directory-exists? output-dir))
     (make-directory output-dir)))
 
+;; Function to copy static files to output directory
+(define (copy-static-files)
+  (define static-dir "static")
+  (define output-static-dir (build-path "output" "static"))
+  
+  (when (directory-exists? static-dir)
+    (when (not (directory-exists? output-static-dir))
+      (make-directory* output-static-dir))
+    
+    (define (copy-directory src-dir dest-dir)
+      (for ([item (directory-list src-dir)])
+        (define src-path (build-path src-dir item))
+        (define dest-path (build-path dest-dir item))
+        
+        (if (directory-exists? src-path)
+            (begin
+              (when (not (directory-exists? dest-path))
+                (make-directory dest-path))
+              (copy-directory src-path dest-path))
+            (begin
+              (when (file-exists? dest-path)
+                (delete-file dest-path))
+              (copy-file src-path dest-path)))))
+    
+    (copy-directory static-dir output-static-dir)
+    (printf "Static files copied to output directory.~n")))
+
 ;; Function to get list of markdown files from posts directory
 (define (get-markdown-files)
   (define posts-dir "posts")
@@ -199,6 +226,7 @@
 ;; Main function
 (define (main)
   (ensure-output-dir)
+  (copy-static-files)
   (define markdown-files (get-markdown-files))
   (for ([file markdown-files])
     (printf "Processing ~a...~n" file))

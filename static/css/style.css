@@ -1,0 +1,75 @@
+/* General styles */
+body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    font-family: system-ui;
+    line-height: 1.6;
+}
+
+/* Header styles */
+.header {
+    margin-bottom: 2rem;
+}
+
+/* Date styles */
+.date {
+    color: #666;
+}
+
+.post-date {
+    color: #666;
+    font-size: 0.9em;
+    margin-left: 1rem;
+}
+
+/* Post list styles */
+.post-list {
+    list-style: none;
+    padding: 0;
+}
+
+.post-list li {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.post-list a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.post-list a:hover {
+    color: #666;
+}
+
+/* Backlinks styles */
+.backlinks {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.backlinks h3 {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.backlinks ul {
+    padding-left: 1.5rem;
+}
+
+.backlinks li {
+    margin-bottom: 0.5rem;
+}
+
+.backlinks a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.backlinks a:hover {
+    text-decoration: underline;
+}
