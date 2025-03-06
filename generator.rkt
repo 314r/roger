@@ -16,6 +16,42 @@
   (when (not (directory-exists? output-dir))
     (make-directory output-dir)))
 
+;; Function to copy static HTML pages to output directory root
+(define (copy-static-pages)
+  (define pages-dir "pages")
+  (define output-dir "output")
+  
+  (when (directory-exists? pages-dir)
+    (for ([item (directory-list pages-dir)])
+      (define src-path (build-path pages-dir item))
+      (define item-str (path->string item))
+      
+      (when (and (file-exists? src-path)
+                 (or (string-suffix? item-str ".html")
+                     (string-suffix? item-str ".htm")))
+        (begin
+          ;; Copy the original HTML file to output directory
+          (define dest-path (build-path output-dir item))
+          (when (file-exists? dest-path)
+            (delete-file dest-path))
+          (copy-file src-path dest-path)
+          
+          ;; Create directory-based URL structure (page/index.html)
+          (define base-name (path->string (path-replace-extension item #"")))
+          (define dir-path (build-path output-dir base-name))
+          (define index-path (build-path dir-path "index.html"))
+          
+          (when (not (directory-exists? dir-path))
+            (make-directory dir-path))
+          
+          (when (file-exists? index-path)
+            (delete-file index-path))
+          (copy-file src-path index-path)
+          
+          (printf "Copied static page: ~a (accessible at /~a.html and /~a/)~n" 
+                  item-str base-name base-name)))))
+  (printf "Static pages copied to output directory.~n"))
+
 ;; Function to copy static files to output directory
 (define (copy-static-files)
   (define static-dir "static")
@@ -227,6 +263,7 @@
 (define (main)
   (ensure-output-dir)
   (copy-static-files)
+  (copy-static-pages)
   (define markdown-files (get-markdown-files))
   (for ([file markdown-files])
     (printf "Processing ~a...~n" file))
